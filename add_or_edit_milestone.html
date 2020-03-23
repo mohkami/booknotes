@@ -1,0 +1,13 @@
+<h1>{{if .Milestone.Id}}Editing{{else}}Adding{{end}} Milestone for {{.Book.Title}}</h1>
+<h2>{{if .PrevMilestone.Id}} After Milestone {{.PrevMilestone.Header}} ({{.PrevMilestone.Caption}}) {{end}}</h2>
+
+<form action="/save_milestone/{{.Book.FileName}}?previouisId={{.PrevMilestone.Id}}&milestoneId={{.Milestone.Id}}"
+    method="POST">
+    <div><input type="text" name="Header" placeholder="Header" value="{{.Milestone.Header}}"></div>
+    <div><input type="text" name="Caption" placeholder="Caption (Optional)" value="{{.Milestone.Caption}}"></div>
+    <div><input type="text" name="ImageUrl" placeholder="Image Url (Optional)" value="{{.Milestone.ImageUrl}}"></div>
+    <div><textarea name="body" rows="20" cols="80"
+            placeholder="Description of the milestone (Optional)">{{.Milestone.Body}}</textarea>
+    </div>
+    <div><input type="submit" value="Save"></div>
+</form>

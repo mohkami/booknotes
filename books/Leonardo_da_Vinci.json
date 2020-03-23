@@ -1,0 +1,50 @@
+{
+    "FileName": "Leonardo_da_Vinci",
+    "Title": "Leonardo da Vinci",
+    "ImageUrl": "https://mattlynndigital.files.wordpress.com/2018/09/leonardo-da-vinci-7.jpg",
+    "Authors": [
+        "Walter Isaacson"
+    ],
+    "Milestones": [
+        {
+            "Id": 1,
+            "Order": 1,
+            "Header": "1452",
+            "Caption": "Leonardo da Vinci",
+            "ImageUrl": "https://images.theconversation.com/files/256856/original/file-20190201-75085-1mor4cs.png?ixlib=rb-1.1.0\u0026rect=3%2C23%2C477%2C533\u0026q=45\u0026auto=format\u0026w=926\u0026fit=clip",
+            "Body": "Leonardo da Vinci was born out of woodlock in Vinci (17 miles west of Florence) being edited"
+        },
+        {
+            "Id": 2,
+            "Order": 2,
+            "Header": "1464",
+            "Caption": "Leonardo Moves to Florence",
+            "ImageUrl": "https://www.nga.gov/content/dam/ngaweb/features/verrocchio-closer-look/detail/detail-david-head-goliath.jpg",
+            "Body": "When 12, his mother in law and grandfather died. Feeling alone and lonely he moves to Florence. Not true at all"
+        },
+        {
+            "Id": 3,
+            "Order": 3,
+            "Header": "1481",
+            "Caption": "Adoration of the Magi",
+            "ImageUrl": "https://www.italymagazine.com/sites/default/files/styles/800xauto/public/story/adoration-magi-leonardo.jpg?itok=UfWD-BgQ",
+            "Body": "When 29, Leonardo starts working on Adoration of the Magi."
+        },
+        {
+            "Id": 4,
+            "Order": 4,
+            "Header": "1482",
+            "Caption": "Leonardo Moves to Milan",
+            "ImageUrl": "https://pinacotecabrera.org/wp-content/uploads/2015/06/Bramante-Eraclito-e-Democrito-1-600x488.jpg",
+            "Body": "When 30, Leonardo moves to Milan and spends the next 17 years there."
+        },
+        {
+            "Id": 5,
+            "Order": 5,
+            "Header": "1510",
+            "Caption": "Leonardo does body dissection",
+            "ImageUrl": "https://images.theconversation.com/files/260968/original/file-20190226-150702-1gg89mh.jpg?ixlib=rb-1.1.0\u0026q=30\u0026auto=format\u0026w=600\u0026h=861\u0026fit=crop\u0026dpr=2",
+            "Body": "When 58, he does dissections to learn about muscles. Before this, his drawings were not correct about muscles, but after this he goes back and perfects them."
+        }
+    ]
+}
