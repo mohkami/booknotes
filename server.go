@@ -175,11 +175,6 @@ func saveMilestoneHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	book.Milestones = newMilestones
-
-	for _, m := range book.Milestones {
-		fmt.Printf("%+v\n", m)
-	}
-
 	book.save()
 	http.Redirect(w, r, "/book/"+bookFileName, http.StatusFound)
 }

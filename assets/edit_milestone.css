@@ -36,4 +36,5 @@ input, textarea {
 input[type=submit] {
   color: white;
   background-color: dimgrey;
+  cursor: pointer;
 }
