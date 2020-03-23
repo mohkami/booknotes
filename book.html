@@ -1,0 +1,45 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="/assets/styles.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="/assets/scripts.js"></script>
+
+</head>
+
+<body>
+    <div class="timeline-container" id="timeline-1">
+        <div class="timeline-header">
+            <h2 class="timeline-header__title">{{.Title}}</h2>
+            <h3 class="timeline-header__subtitle">by {{index .Authors 0}}</h3>
+        </div>
+        <div class="timeline">
+            {{range $i, $milestone := .Milestones}}
+            <div class="timeline-item" data-text="{{$milestone.Caption}}">
+                <div class="timeline__content">
+                    {{if $milestone.ImageUrl}}
+                    <img class="timeline__img" src="{{$milestone.ImageUrl}}" />
+                    {{end}}
+                    <h2 class="timeline__content-title">{{$milestone.Header}}</h2>
+                    <p class="timeline__content-desc">
+                        {{$milestone.Body}}
+                    </p>
+                    <div class="timeline__content-actions">
+                        <div>
+                            <a href="/add_or_edit_milestone/{{$.FileName}}?milestoneId={{$milestone.Id}}">
+                                Edit milestone ...
+                            </a>
+                        </div>
+                        <div>
+                            <a href="/add_or_edit_milestone/{{$.FileName}}?previouisId={{$milestone.Id}}">
+                                + Add milestone below
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{end}}
+        </div>
+</body>
+
+</html>
