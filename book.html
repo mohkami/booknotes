@@ -11,10 +11,13 @@
     <div class="timeline-container" id="timeline-1">
         <div class="timeline-header">
             <div class="timeline-back-button-container">
-                <a href="/index" class="timeline-back-button">< Back</a>
+                <a href="/index" class="timeline-header-link">< Back</a>
             </div>
             <h2 class="timeline-header__title">{{.Title}}</h2>
             <h3 class="timeline-header__subtitle">by {{index .Authors 0}}</h3>
+            <h3 class="timeline-header__add-item-container">
+                    <a href="/add_or_edit_milestone/{{.FileName}}" class="timeline-header-link"> + Add milestone </a>
+                </h3>
         </div>
         <div class="timeline">
             {{range $i, $milestone := .Milestones}}

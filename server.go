@@ -35,16 +35,26 @@ type TemplateAddOrEditMilestoneValue struct {
 	Milestone     Milestone
 }
 
+type TemplateAddOrEditBookValue struct {
+	FileName    string
+	Title       string
+	ImageUrl    string
+	AuthorsList string
+}
+
 func getBookFilePath(bookFileName string) string {
 	return "./books/" + bookFileName + ".json"
 }
 
 func loadBook(fileName string) Book {
 	filePath := getBookFilePath(fileName)
-	body, _ := ioutil.ReadFile(filePath)
+	body, err := ioutil.ReadFile(filePath)
 
 	var book Book
-	json.Unmarshal([]byte(body), &book)
+	if err == nil {
+		json.Unmarshal([]byte(body), &book)
+	}
+
 	return book
 }
 
@@ -57,6 +67,61 @@ func (book *Book) save() error {
 func renderTemplate(w http.ResponseWriter, fileName string, book *Book) {
 	t, _ := template.ParseFiles(fileName + ".html")
 	t.Execute(w, book)
+}
+
+func addOrEditBookHandler(w http.ResponseWriter, r *http.Request) {
+	bookFileNameQueryValues := r.URL.Query()["bookFileName"]
+
+	var bookFileName string
+	if len(bookFileNameQueryValues) > 0 {
+		bookFileName = bookFileNameQueryValues[0]
+	}
+
+	book := loadBook(bookFileName)
+
+	item := TemplateAddOrEditBookValue{
+		FileName:    book.FileName,
+		Title:       book.Title,
+		ImageUrl:    book.ImageUrl,
+		AuthorsList: strings.Join(book.Authors, ","),
+	}
+
+	t, _ := template.ParseFiles("add_or_edit_book.html")
+	t.Execute(w, item)
+}
+
+func saveBookHandler(w http.ResponseWriter, r *http.Request) {
+	bookFileNameQueryValues := r.URL.Query()["bookFileName"]
+
+	var bookFileName string
+	if len(bookFileNameQueryValues) > 0 {
+		bookFileName = bookFileNameQueryValues[0]
+	}
+
+	fileName := r.FormValue("FileName")
+	title := r.FormValue("Title")
+	imageUrl := r.FormValue("ImageUrl")
+
+	authorsList := r.FormValue("AuthorsList")
+	authors := strings.Split(authorsList, ",")
+
+	book := loadBook(bookFileName)
+
+	var milestones []Milestone = nil
+
+	if book.FileName == "" {
+		milestones = book.Milestones
+	}
+
+	book = Book{
+		FileName:   fileName,
+		Title:      title,
+		ImageUrl:   imageUrl,
+		Authors:    authors,
+		Milestones: milestones,
+	}
+	book.save()
+	http.Redirect(w, r, "/book/"+book.FileName, http.StatusFound)
 }
 
 func addOrEditMilestoneHandler(w http.ResponseWriter, r *http.Request) {
@@ -99,7 +164,6 @@ func addOrEditMilestoneHandler(w http.ResponseWriter, r *http.Request) {
 	t.Execute(w, item)
 }
 
-// TODO clean this up
 func saveMilestoneHandler(w http.ResponseWriter, r *http.Request) {
 	bookFileName := r.URL.Path[len("/save_milestone/"):]
 
@@ -116,10 +180,10 @@ func saveMilestoneHandler(w http.ResponseWriter, r *http.Request) {
 		milestoneId, _ = strconv.Atoi(milestoneIds[0])
 	}
 
-	Header := r.FormValue("Header")
-	Caption := r.FormValue("Caption")
-	ImageUrl := r.FormValue("ImageUrl")
-	Body := r.FormValue("body")
+	header := r.FormValue("Header")
+	caption := r.FormValue("Caption")
+	imageUrl := r.FormValue("ImageUrl")
+	body := r.FormValue("body")
 
 	book := loadBook(bookFileName)
 
@@ -127,11 +191,10 @@ func saveMilestoneHandler(w http.ResponseWriter, r *http.Request) {
 	if milestoneId > 0 {
 		for _, milestone := range book.Milestones {
 			if milestone.Id == milestoneId {
-				milestone.Header = Header
-				milestone.Caption = Caption
-				milestone.ImageUrl = ImageUrl
-				milestone.ImageUrl = ImageUrl
-				milestone.Body = Body
+				milestone.Header = header
+				milestone.Caption = caption
+				milestone.ImageUrl = imageUrl
+				milestone.Body = body
 			}
 			newMilestones = append(newMilestones, milestone)
 		}
@@ -141,10 +204,10 @@ func saveMilestoneHandler(w http.ResponseWriter, r *http.Request) {
 		newMilestone := Milestone{
 			Id:       len(book.Milestones) + 1,
 			Order:    len(book.Milestones) + 1,
-			Header:   Header,
-			Caption:  Caption,
-			ImageUrl: ImageUrl,
-			Body:     Body,
+			Header:   header,
+			Caption:  caption,
+			ImageUrl: imageUrl,
+			Body:     body,
 		}
 
 		pivotOrder := len(book.Milestones)
@@ -208,8 +271,15 @@ func main() {
 	fs := http.FileServer(http.Dir("./assets"))
 	http.Handle("/assets/", http.StripPrefix("/assets/", fs))
 	http.HandleFunc("/index/", indexHandler)
+
+	// Books
 	http.HandleFunc("/book/", bookHandler)
+	http.HandleFunc("/add_or_edit_book/", addOrEditBookHandler)
+	http.HandleFunc("/save_book/", saveBookHandler)
+
+	// Milestones
 	http.HandleFunc("/add_or_edit_milestone/", addOrEditMilestoneHandler)
 	http.HandleFunc("/save_milestone/", saveMilestoneHandler)
+
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
