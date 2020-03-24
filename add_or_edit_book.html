@@ -8,37 +8,27 @@
     <div class="header_container">
         <h1>{{if .FileName}}Editing{{else}}Adding{{end}} Book</h1>
     </div>
-    <form action="/save_book/?bookFileName={{.FileName}}"
-        method="POST">
+    <form action="/save_book/?bookFileName={{.FileName}}" method="POST">
         <div class="form_row">
-            <div class="form_row-header">
-                File Name:
-            </div>
+            <div class="form_row-header"> File Name: </div>
             <div class="form_row-input">
                 <input type="text" name="FileName" value="{{.FileName}}">
             </div>
         </div>
         <div class="form_row">
-            <div class="form_row-header">
-                Title:
-            </div>
+            <div class="form_row-header"> Title: </div>
             <div class="form_row-input">
                 <input type="text" name="Title" value="{{.Title}}">
             </div>
         </div>
         <div class="form_row">
-            <div class="form_row-header">
-                Image Url:
-            </div>
-
+            <div class="form_row-header"> Image Url: </div>
             <div class="form_row-input">
                 <input type="text" name="ImageUrl" value="{{.ImageUrl}}">
             </div>
         </div>
         <div class="form_row">
-            <div class="form_row-header">
-                Authors (comma separated):
-            </div>
+            <div class="form_row-header"> Authors (comma separated): </div>
             <div class="form_row-input">
                 <input type="text" name="AuthorsList" value="{{.AuthorsList}}">
             </div>
