@@ -150,6 +150,17 @@ body {
   margin-bottom: 80px;
   position: relative;
 }
+.timeline-back-button-container {
+  padding: 0px 40px;
+  display: flex;
+  width: 100%;
+  align-content: flex-start;
+}
+.timeline-back-button {
+  color: #dddddd;
+  text-align: left;
+  text-decoration: none;
+}
 .timeline-header__title {
   color: #fff;
   font-size: 46px;

@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"sort"
 	"strconv"
+	"strings"
 	"text/template"
 )
 
@@ -188,9 +189,25 @@ func bookHandler(w http.ResponseWriter, r *http.Request) {
 	renderTemplate(w, "book", &book)
 }
 
+func indexHandler(w http.ResponseWriter, r *http.Request) {
+	files, err := ioutil.ReadDir("./books")
+	if err != nil {
+		log.Fatal(err)
+	}
+	var allBooks []Book
+	for _, f := range files {
+		book := loadBook(strings.Split(f.Name(), ".json")[0])
+		allBooks = append(allBooks, book)
+	}
+
+	t, _ := template.ParseFiles("index.html")
+	t.Execute(w, &allBooks)
+}
+
 func main() {
 	fs := http.FileServer(http.Dir("./assets"))
 	http.Handle("/assets/", http.StripPrefix("/assets/", fs))
+	http.HandleFunc("/index/", indexHandler)
 	http.HandleFunc("/book/", bookHandler)
 	http.HandleFunc("/add_or_edit_milestone/", addOrEditMilestoneHandler)
 	http.HandleFunc("/save_milestone/", saveMilestoneHandler)
