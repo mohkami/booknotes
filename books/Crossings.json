@@ -1,0 +1,18 @@
+{
+    "FileName": "Crossings",
+    "Title": "Crossings",
+    "ImageUrl": "https://images-na.ssl-images-amazon.com/images/I/715pXphsFcL.jpg",
+    "Authors": [
+        "Walter Nugent"
+    ],
+    "Milestones": [
+        {
+            "Id": 1,
+            "Order": 1,
+            "Header": "1914",
+            "Caption": "World War One",
+            "ImageUrl": "https://news.cnrs.fr/sites/default/files/styles/visuel_principal/public/assets/images/hu037091_72dpi.jpg",
+            "Body": "WWI started"
+        }
+    ]
+}
