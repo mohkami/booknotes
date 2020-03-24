@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 	"sort"
 	"strconv"
 	"strings"
@@ -122,6 +123,25 @@ func saveBookHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	book.save()
 	http.Redirect(w, r, "/book/"+book.FileName, http.StatusFound)
+}
+
+func deleteBookHandler(w http.ResponseWriter, r *http.Request) {
+	bookFileNameQueryValues := r.URL.Query()["bookFileName"]
+
+	var bookFileName string
+	if len(bookFileNameQueryValues) > 0 {
+		bookFileName = bookFileNameQueryValues[0]
+	}
+
+	book := loadBook(bookFileName)
+
+	if book.FileName != "" {
+		err := os.Remove(getBookFilePath(book.FileName))
+		if err != nil {
+			fmt.Println(err)
+		}
+	}
+	http.Redirect(w, r, "/index/", http.StatusFound)
 }
 
 func addOrEditMilestoneHandler(w http.ResponseWriter, r *http.Request) {
@@ -243,6 +263,31 @@ func saveMilestoneHandler(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/book/"+bookFileName, http.StatusFound)
 }
 
+func deleteMilestoneHandler(w http.ResponseWriter, r *http.Request) {
+	bookFileName := r.URL.Path[len("/delete_milestone/"):]
+
+	milestoneIds := r.URL.Query()["milestoneId"]
+
+	var milestoneId int
+	if len(milestoneIds) > 0 {
+		milestoneId, _ = strconv.Atoi(milestoneIds[0])
+	}
+
+	book := loadBook(bookFileName)
+
+	var editedMilestones []Milestone
+	for _, milestone := range book.Milestones {
+		if milestone.Id == milestoneId {
+			continue
+		}
+		editedMilestones = append(editedMilestones, milestone)
+	}
+	book.Milestones = editedMilestones
+	book.save()
+
+	http.Redirect(w, r, "/book/"+book.FileName, http.StatusFound)
+}
+
 func bookHandler(w http.ResponseWriter, r *http.Request) {
 	bookFileName := r.URL.Path[len("/book/"):]
 	book := loadBook(bookFileName)
@@ -276,10 +321,12 @@ func main() {
 	http.HandleFunc("/book/", bookHandler)
 	http.HandleFunc("/add_or_edit_book/", addOrEditBookHandler)
 	http.HandleFunc("/save_book/", saveBookHandler)
+	http.HandleFunc("/delete_book/", deleteBookHandler)
 
 	// Milestones
 	http.HandleFunc("/add_or_edit_milestone/", addOrEditMilestoneHandler)
 	http.HandleFunc("/save_milestone/", saveMilestoneHandler)
+	http.HandleFunc("/delete_milestone/", deleteMilestoneHandler)
 
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }

@@ -20,9 +20,14 @@
                         <img class="timeline__img" src="{{$book.ImageUrl}}" />
                     </a>
                     <div class="timeline__content-actions">
-                        <a href="/add_or_edit_book/?bookFileName={{$book.FileName}}" class="timeline-header-link"> 
-                            Edit book ... 
-                        </a>
+                        <div>
+                            <a href="/add_or_edit_book/?bookFileName={{$book.FileName}}" class="timeline-header-link">
+                                Edit book ... </a>
+                        </div>
+                        <div>
+                            <a href="/delete_book/?bookFileName={{$book.FileName}}" class="timeline-header-link"> -
+                                Delete book </a>
+                        </div>
                     </div>
                 </div>
             </div> {{end}} </div>
