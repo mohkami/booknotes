@@ -207,6 +207,18 @@ func saveMilestoneHandler(w http.ResponseWriter, r *http.Request) {
 
 	book := loadBook(bookFileName)
 
+	maxId := 0
+	maxOrder := 0
+
+	for _, milestone := range book.Milestones {
+		if maxId <= milestone.Id {
+			maxId = milestone.Id
+		}
+		if maxOrder <= milestone.Order {
+			maxOrder = milestone.Order
+		}
+	}
+
 	var newMilestones []Milestone
 	if milestoneId > 0 {
 		for _, milestone := range book.Milestones {
@@ -222,8 +234,8 @@ func saveMilestoneHandler(w http.ResponseWriter, r *http.Request) {
 	} else {
 
 		newMilestone := Milestone{
-			Id:       len(book.Milestones) + 1,
-			Order:    len(book.Milestones) + 1,
+			Id:       maxId + 1,
+			Order:    maxOrder + 1,
 			Header:   header,
 			Caption:  caption,
 			ImageUrl: imageUrl,
