@@ -23,10 +23,12 @@
             {{range $i, $milestone := .Milestones}}
             <div class="timeline-item" data-text="{{$milestone.Caption}}">
                 <div class="timeline__content">
-                    {{if $milestone.ImageUrl}}
-                    <img class="timeline__img" src="{{$milestone.ImageUrl}}" />
-                    {{end}}
-                    <h2 class="timeline__content-title">{{$milestone.Header}}</h2>
+                    <a href="/book_milestone/{{$.FileName}}?milestoneId={{$milestone.Id}}">
+                        {{if $milestone.ImageUrl}}
+                        <img class="timeline__img" src="{{$milestone.ImageUrl}}" />
+                        {{end}}
+                        <h2 class="timeline__content-title">{{$milestone.Header}}</h2>
+                    </a>
                     <div class="timeline__content-desc">
                         {{$milestone.Body}}
                     </div>

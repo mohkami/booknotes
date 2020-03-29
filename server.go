@@ -30,6 +30,11 @@ type Book struct {
 	Milestones []Milestone
 }
 
+type TemplateBookMilestoneValue struct {
+	Book      Book
+	Milestone Milestone
+}
+
 type TemplateAddOrEditMilestoneValue struct {
 	Book          Book
 	PrevMilestone Milestone
@@ -300,13 +305,40 @@ func deleteMilestoneHandler(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/book/"+book.FileName, http.StatusFound)
 }
 
+func bookMilestoneHandler(w http.ResponseWriter, r *http.Request) {
+	bookFileName := r.URL.Path[len("/book_milestone/"):]
+	milestoneIds := r.URL.Query()["milestoneId"]
+	var milestoneId int
+	if len(milestoneIds) > 0 {
+		milestoneId, _ = strconv.Atoi(milestoneIds[0])
+	}
+
+	book := loadBook(bookFileName)
+
+	var selectedMilestone Milestone
+	for _, milestone := range book.Milestones {
+		if milestone.Id == milestoneId {
+			selectedMilestone = milestone
+			break
+		}
+	}
+
+	item := TemplateBookMilestoneValue{
+		Book:      book,
+		Milestone: selectedMilestone,
+	}
+
+	t, _ := template.ParseFiles("book_milestone.html")
+	t.Execute(w, item)
+}
+
 func bookHandler(w http.ResponseWriter, r *http.Request) {
 	bookFileName := r.URL.Path[len("/book/"):]
 	book := loadBook(bookFileName)
 	sort.SliceStable(book.Milestones, func(i, j int) bool {
 		return book.Milestones[i].Order < book.Milestones[j].Order
 	})
-	renderTemplate(w, "books", &book)
+	renderTemplate(w, "book", &book)
 }
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {
@@ -339,6 +371,7 @@ func main() {
 	http.HandleFunc("/add_or_edit_milestone/", addOrEditMilestoneHandler)
 	http.HandleFunc("/save_milestone/", saveMilestoneHandler)
 	http.HandleFunc("/delete_milestone/", deleteMilestoneHandler)
+	http.HandleFunc("/book_milestone/", bookMilestoneHandler)
 
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }

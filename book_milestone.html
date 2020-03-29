@@ -1,0 +1,35 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="/assets/book_styles.css">
+    <link rel="stylesheet" href="/assets/book_milestone.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="/assets/scripts.js"></script>
+
+</head>
+
+<body>
+    <div class="timeline-container" id="timeline-1">
+        <div class="timeline-header">
+            <div class="timeline-back-button-container">
+                <a href="/book/{{.Book.FileName}}" class="timeline-header-link">< Back</a>
+            </div>
+            <h2 class="timeline-header__title">
+                <div>
+                {{if .Milestone.ImageUrl}}
+                    <img class="timeline__img" src="{{.Milestone.ImageUrl}}" />
+                {{end}}
+                </div>
+                {{.Milestone.Caption}}
+            </h2>
+            <h3>
+                {{.Milestone.Header}}
+            </h3>
+        </div>
+        <div class="content">
+            {{.Milestone.Body}}
+        </div>
+    </div>
+</body>
+
+</html>

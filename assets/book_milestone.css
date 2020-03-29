@@ -1,0 +1,19 @@
+.timeline__img {
+  width: 400px;
+}
+h3 {
+  color: #fff;
+  font-family: Cardo;
+  font-weight: normal;
+  margin: 0;
+}
+.content {
+  display: flex;
+  margin: 0 auto;
+  flex-wrap: wrap;
+  flex-direction: column;
+  max-width: 700px;
+  position: relative;
+  color: #ffffff;
+  line-height: 20px;
+}
