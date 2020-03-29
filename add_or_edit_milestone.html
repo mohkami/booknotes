@@ -1,7 +1,9 @@
+<!DOCTYPE html>
 <html>
 
 <head>
     <link rel="stylesheet" href="/assets/edit_milestone.css">
+    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 </head>
 
 <body>
@@ -40,11 +42,11 @@
             Description:
         </p>
         <p>
-            <textarea name="body" rows="20" cols="80"
-                placeholder="Description of the milestone (Optional)">{{.Milestone.Body}}</textarea>
+            <textarea name="body" rows="30" cols="80" placeholder="Description of the milestone (Optional)">{{.Milestone.Body}}</textarea>
         </p>
         <div>
             <input type="submit" value="Save">
         </div>
     </form>
+    <script>tinymce.init({selector:'textarea'});</script>
 </body>
