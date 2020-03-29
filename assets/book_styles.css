@@ -33,6 +33,8 @@ body {
   font-family: Cardo;
   font-weight: normal;
   line-height: 25px;
+  max-height: 300px;
+  overflow: scroll;
 }
 .timeline__content-actions {
   padding-top: 50px;

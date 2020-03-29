@@ -306,7 +306,7 @@ func bookHandler(w http.ResponseWriter, r *http.Request) {
 	sort.SliceStable(book.Milestones, func(i, j int) bool {
 		return book.Milestones[i].Order < book.Milestones[j].Order
 	})
-	renderTemplate(w, "book", &book)
+	renderTemplate(w, "books", &book)
 }
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {

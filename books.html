@@ -27,9 +27,9 @@
                     <img class="timeline__img" src="{{$milestone.ImageUrl}}" />
                     {{end}}
                     <h2 class="timeline__content-title">{{$milestone.Header}}</h2>
-                    <p class="timeline__content-desc">
+                    <div class="timeline__content-desc">
                         {{$milestone.Body}}
-                    </p>
+                    </div>
                     <div class="timeline__content-actions">
                         <div>
                             <a href="/add_or_edit_milestone/{{$.FileName}}?milestoneId={{$milestone.Id}}">
